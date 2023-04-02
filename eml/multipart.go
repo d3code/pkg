@@ -1,15 +1,13 @@
-// Handle multipart messages.
-
 package eml
 
 import (
     "bytes"
-    "google.golang.org/appengine/log"
+    "errors"
     "io"
-    "io/ioutil"
     "mime"
     "mime/multipart"
     "regexp"
+    "strings"
 )
 
 type Part struct {
@@ -23,26 +21,32 @@ type Part struct {
 // type is multipart, the parts slice will contain an entry for each part
 // present; otherwise, it will contain a single entry, with the entire (raw)
 // message contents.
-func parseBody(ct string, body []byte) (parts []Part, err error) {
-    _, ps, err := mime.ParseMediaType(ct)
+func parseBody(contentType string, body []byte) ([]Part, error) {
+    mediaType, params, err := mime.ParseMediaType(contentType)
+
+    var parts []Part
+
     if err != nil {
-        log.Errorf(nil, "mime.ParseMediaType(%q) failed: %v", ct, err)
-        return
+        return nil, err
     }
 
-    // if mt != "multipart/alternative" {
-    // 	parts = append(parts, Part{ct, body, nil})
-    // 	return
-    // }
+    if !strings.HasPrefix(mediaType, "multipart/") {
+        part := Part{mediaType, params["charset"], body, nil}
+        parts = append(parts, part)
 
-    boundary, ok := ps["boundary"]
+        return parts, nil
+    }
+
+    boundary, ok := params["boundary"]
     if !ok {
-        //return nil, errors.New("multipart specified without boundary")
+        return nil, errors.New("multipart specified without boundary")
     }
+
     r := multipart.NewReader(bytes.NewReader(body), boundary)
     p, err := r.NextPart()
+
     for err == nil {
-        data, _ := ioutil.ReadAll(p) // ignore error
+        data, _ := io.ReadAll(p) // ignore error
         var subparts []Part
         subparts, err = parseBody(p.Header["Content-Type"][0], data)
         //if err == nil then body have sub multipart, and append him
@@ -62,5 +66,6 @@ func parseBody(ct string, body []byte) (parts []Part, err error) {
     if err == io.EOF {
         err = nil
     }
-    return
+
+    return parts, err
 }

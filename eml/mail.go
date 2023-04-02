@@ -14,15 +14,7 @@ import (
     "time"
 )
 
-var benc = base64.URLEncoding
-
-func mkId(s []byte) string {
-    h := sha1.New()
-    h.Write(s)
-    hash := h.Sum(nil)
-    ed := benc.EncodeToString(hash)
-    return ed[0:20]
-}
+var urlEncoding = base64.URLEncoding
 
 type HeaderInfo struct {
     FullHeaders []Header // all headers
@@ -64,79 +56,102 @@ type Header struct {
     Key, Value string
 }
 
-func Parse(s []byte) (m Message, e error) {
-    r, e := ParseRaw(s)
-    if e != nil {
-        return
+func Parse(s []byte) (*Message, error) {
+    rawMessage, err := ParseRaw(s)
+    if err != nil {
+        return nil, err
     }
-    return Process(r)
+
+    return Process(rawMessage)
 }
 
-func Process(r RawMessage) (m Message, e error) {
-    m.FullHeaders = []Header{}
-    m.OptHeaders = []Header{}
-    for _, rh := range r.RawHeaders {
-        h := Header{string(rh.Key), string(rh.Value)}
-        m.FullHeaders = append(m.FullHeaders, h)
-        switch string(rh.Key) {
+func Process(rawMessage RawMessage) (message *Message, err error) {
+
+    message.FullHeaders = []Header{}
+    message.OptHeaders = []Header{}
+
+    for _, rawHeader := range rawMessage.RawHeaders {
+
+        header := Header{string(rawHeader.Key), string(rawHeader.Value)}
+        message.FullHeaders = append(message.FullHeaders, header)
+
+        switch string(rawHeader.Key) {
+
         case `Content-Type`:
-            m.ContentType = string(rh.Value)
+            message.ContentType = string(rawHeader.Value)
+
         case `Message-ID`:
-            v := bytes.Trim(rh.Value, `<>`)
-            m.MessageId = string(v)
-            m.Id = mkId(v)
+            v := bytes.Trim(rawHeader.Value, `<>`)
+            message.MessageId = string(v)
+            message.Id = makeId(v)
+
         case `In-Reply-To`:
-            ids := strings.Fields(string(rh.Value))
+            ids := strings.Fields(string(rawHeader.Value))
             for _, id := range ids {
-                m.InReply = append(m.InReply, strings.Trim(id, `<> `))
+                message.InReply = append(message.InReply, strings.Trim(id, `<> `))
             }
+
         case `References`:
-            ids := strings.Fields(string(rh.Value))
+            ids := strings.Fields(string(rawHeader.Value))
             for _, id := range ids {
-                m.References = append(m.References, strings.Trim(id, `<> `))
+                message.References = append(message.References, strings.Trim(id, `<> `))
             }
+
         case `Date`:
-            m.Date = ParseDate(string(rh.Value))
+            message.Date = ParseDate(string(rawHeader.Value))
+
         case `From`:
-            m.From, e = parseAddressList(rh.Value)
+            message.From, err = parseAddressList(rawHeader.Value)
+
         case `Sender`:
-            m.Sender, e = ParseAddress(rh.Value)
+            message.Sender, err = ParseAddress(rawHeader.Value)
+
         case `Reply-To`:
-            m.ReplyTo, e = parseAddressList(rh.Value)
+            message.ReplyTo, err = parseAddressList(rawHeader.Value)
+
         case `To`:
-            m.To, e = parseAddressList(rh.Value)
+            message.To, err = parseAddressList(rawHeader.Value)
+
         case `Cc`:
-            m.Cc, e = parseAddressList(rh.Value)
+            message.Cc, err = parseAddressList(rawHeader.Value)
+
         case `Bcc`:
-            m.Bcc, e = parseAddressList(rh.Value)
+            message.Bcc, err = parseAddressList(rawHeader.Value)
+
         case `Subject`:
-            subject, err := decoder.Parse(rh.Value)
+            subject, err := decoder.Parse(rawHeader.Value)
             if err != nil {
                 fmt.Println("Failed decode subject", err)
             }
-            m.Subject = string(subject)
+
+            message.Subject = string(subject)
+
         case `Comments`:
-            m.Comments = append(m.Comments, string(rh.Value))
+            message.Comments = append(message.Comments, string(rawHeader.Value))
+
         case `Keywords`:
-            ks := strings.Split(string(rh.Value), ",")
+            ks := strings.Split(string(rawHeader.Value), ",")
             for _, k := range ks {
-                m.Keywords = append(m.Keywords, strings.TrimSpace(k))
+                message.Keywords = append(message.Keywords, strings.TrimSpace(k))
             }
+
         default:
-            m.OptHeaders = append(m.OptHeaders, h)
+            message.OptHeaders = append(message.OptHeaders, header)
         }
-        if e != nil {
+        if err != nil {
             return
         }
     }
-    if m.Sender == nil && len(m.From) > 0 {
-        m.Sender = m.From[0]
+
+    if message.Sender == nil && len(message.From) > 0 {
+        message.Sender = message.From[0]
     }
 
-    if m.ContentType != `` {
-        parts, er := parseBody(m.ContentType, r.Body)
+    if message.ContentType != "" {
+
+        parts, er := parseBody(message.ContentType, rawMessage.Body)
         if er != nil {
-            e = er
+            err = er
             return
         }
 
@@ -146,20 +161,22 @@ func Process(r RawMessage) (m Message, e error) {
 
                 data, err := decoder.UTF8(part.Charset, part.Data)
                 if err != nil {
-                    m.Text = string(part.Data)
+                    message.Text = string(part.Data)
                 } else {
-                    m.Text = string(data)
+                    message.Text = string(data)
                 }
+
             case strings.Contains(part.Type, "text/html"):
 
                 data, err := decoder.UTF8(part.Charset, part.Data)
                 if err != nil {
-                    m.Html = string(part.Data)
+                    message.Html = string(part.Data)
                 } else {
-                    m.Html = string(data)
+                    message.Html = string(data)
                 }
 
             default:
+
                 if cd, ok := part.Headers["Content-Disposition"]; ok {
                     if strings.Contains(cd[0], "attachment") {
                         filename := regexp.MustCompile("(?msi)name=\"(.*?)\"").FindStringSubmatch(cd[0]) //.FindString(cd[0])
@@ -186,19 +203,21 @@ func Process(r RawMessage) (m Message, e error) {
                                 part.Data, _ = ioutil.ReadAll(quotedprintable.NewReader(bytes.NewReader(part.Data)))
                             }
                         }
-                        m.Attachments = append(m.Attachments, Attachment{filename[1], part.Data})
+                        message.Attachments = append(message.Attachments, Attachment{filename[1], part.Data})
 
                     }
                 }
             }
         }
 
-        m.Parts = parts
-        m.ContentType = parts[0].Type
-        m.Text = string(parts[0].Data)
+        message.Parts = parts
+        message.ContentType = parts[0].Type
+        message.Text = string(parts[0].Data)
+
     } else {
-        m.Text = string(r.Body)
+        message.Text = string(rawMessage.Body)
     }
+
     return
 }
 
@@ -228,6 +247,7 @@ func ParseRaw(s []byte) (m RawMessage, e error) {
         CR = '\r'
         LF = '\n'
     )
+
     CRLF := []byte{CR, LF}
 
     state := READY
@@ -285,4 +305,14 @@ Done:
         e = errors.New("unexpected EOF")
     }
     return
+}
+
+func makeId(headerBytes []byte) string {
+    h := sha1.New()
+    h.Write(headerBytes)
+
+    hash := h.Sum(nil)
+    encodeToString := urlEncoding.EncodeToString(hash)
+
+    return encodeToString[0:20]
 }
