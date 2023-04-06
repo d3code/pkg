@@ -5,13 +5,13 @@ import (
     "context"
     "database/sql"
     "fmt"
-    "github.com/d3code/pkg/configuration"
+    "github.com/d3code/pkg/cfg"
     "github.com/go-sql-driver/mysql"
     "net"
 )
 
 // connectWithConnector initializes a SQL Cloud connector connection pool
-func connectWithConnector(databaseConfig configuration.DatabaseConfig) (*sql.DB, error) {
+func connectWithConnector(databaseConfig cfg.DatabaseConfig) (*sql.DB, error) {
     var (
         user                   = databaseConfig.User           // e.g. 'my-db-user'
         password               = databaseConfig.Password       // e.g. 'my-db-password'

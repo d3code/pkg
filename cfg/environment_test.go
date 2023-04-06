@@ -1,4 +1,4 @@
-package common_util
+package cfg
 
 import (
     "fmt"

@@ -1,7 +1,7 @@
 package log
 
 import (
-    "github.com/d3code/pkg/common_util"
+    "github.com/d3code/pkg/cfg"
     "go.uber.org/zap"
     "go.uber.org/zap/zapcore"
     "log"
@@ -27,7 +27,7 @@ func InitLogger() {
     loggerConfig := zap.NewProductionConfig()
     loggerConfig.EncoderConfig = encoderConfig
 
-    if common_util.GetEnvironmentOrDefault("environment", "local") == "local" {
+    if cfg.GetEnvironmentOrDefault("environment", "local") == "local" {
         loggerConfig = zap.NewDevelopmentConfig()
     }
 

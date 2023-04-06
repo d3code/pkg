@@ -3,13 +3,13 @@ package data
 import (
     "database/sql"
     "fmt"
-    "github.com/d3code/pkg/configuration"
+    "github.com/d3code/pkg/cfg"
     "github.com/d3code/pkg/log"
     _ "github.com/go-sql-driver/mysql"
 )
 
 // connectUnixSocket initializes a Unix socket connection pool for a Cloud SQL instance of MySQL
-func connectUnixSocket(databaseConfig configuration.DatabaseConfig) (*sql.DB, error) {
+func connectUnixSocket(databaseConfig cfg.DatabaseConfig) (*sql.DB, error) {
     var (
         user           = databaseConfig.User
         password       = databaseConfig.Password

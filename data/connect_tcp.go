@@ -6,14 +6,14 @@ import (
     "database/sql"
     "errors"
     "fmt"
-    "github.com/d3code/pkg/configuration"
+    "github.com/d3code/pkg/cfg"
     "github.com/d3code/pkg/log"
     "github.com/go-sql-driver/mysql"
     "io/ioutil"
 )
 
 // connectTCPSocket initializes a TCP connection pool
-func connectTCPSocket(databaseConfig configuration.DatabaseConfig) (*sql.DB, error) {
+func connectTCPSocket(databaseConfig cfg.DatabaseConfig) (*sql.DB, error) {
     var (
         user         = databaseConfig.User         // e.g. 'my-db-user'
         password     = databaseConfig.Password     // e.g. 'my-db-password'
@@ -47,7 +47,7 @@ func connectTCPSocket(databaseConfig configuration.DatabaseConfig) (*sql.DB, err
 // For deployments that connect directly to Cloud SQL instances without
 // using the Cloud SQL Proxy, configuring SSL certificates will ensure the
 // connection is encrypted.
-func configureSSLCertificates(databaseConfig configuration.DatabaseConfig) (string, error) {
+func configureSSLCertificates(databaseConfig cfg.DatabaseConfig) (string, error) {
     rootCert := databaseConfig.RootCertPath // e.g., '/path/to/my/server-ca.pem'
     if rootCert != "" {
         var (

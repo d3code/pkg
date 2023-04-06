@@ -1,4 +1,4 @@
-package common_util
+package encrypt
 
 import "encoding/base64"
 

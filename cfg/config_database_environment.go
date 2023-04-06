@@ -1,8 +1,7 @@
-package configuration
+package cfg
 
 import (
     "fmt"
-    "github.com/d3code/pkg/common_util"
     "gopkg.in/yaml.v3"
     "io/ioutil"
     "sync"
@@ -29,8 +28,8 @@ type DatabaseConfig struct {
 
 func GetDatabaseConfig(databaseName string) DatabaseConfig {
     onceConfigDatabaseEnvironment.Do(func() {
-        environment := common_util.GetEnvironmentOrDefault("environment", "local")
-        configLocation := common_util.GetEnvironmentOrDefault("config_location", "config")
+        environment := GetEnvironmentOrDefault("environment", "local")
+        configLocation := GetEnvironmentOrDefault("config_location", "config")
 
         configPath := fmt.Sprintf("%s/database_%s_%s.yaml", configLocation, databaseName, environment)
         configFile, err := ioutil.ReadFile(configPath)
@@ -45,7 +44,7 @@ func GetDatabaseConfig(databaseName string) DatabaseConfig {
 
         var b interface{} = configDatabaseEnvironment
 
-        x := common_util.NormalizeConfig(&b)
+        x := NormalizeConfig(&b)
         configDatabaseEnvironment = x.Interface().(DatabaseConfig)
     })
     return configDatabaseEnvironment

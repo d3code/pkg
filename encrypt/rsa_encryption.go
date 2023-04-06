@@ -4,7 +4,6 @@ import (
     "crypto/rand"
     "crypto/rsa"
     "crypto/sha512"
-    "github.com/d3code/pkg/common_util"
     "github.com/d3code/pkg/log"
     "os"
 )
@@ -52,14 +51,14 @@ func EncryptWithPublicKey(message string, publicKey *rsa.PublicKey) string {
     if err != nil {
         log.Log.Error(err)
     }
-    base64Bytes := common_util.Base64Encode(ciphertext)
+    base64Bytes := Base64Encode(ciphertext)
     return string(base64Bytes)
 }
 
 // DecryptWithPrivateKey decrypts data with private key
 func DecryptWithPrivateKey(ciphertext string, privateKey *rsa.PrivateKey) string {
     hash := sha512.New()
-    base64Decode, _ := common_util.Base64Decode([]byte(ciphertext))
+    base64Decode, _ := Base64Decode([]byte(ciphertext))
     plaintext, err := rsa.DecryptOAEP(hash, rand.Reader, privateKey, base64Decode, nil)
     if err != nil {
         log.Log.Error(err)

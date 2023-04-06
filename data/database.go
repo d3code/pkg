@@ -2,7 +2,7 @@ package data
 
 import (
     "database/sql"
-    "github.com/d3code/pkg/configuration"
+    "github.com/d3code/pkg/cfg"
     "github.com/d3code/pkg/log"
 )
 
@@ -13,7 +13,7 @@ var database = make(map[string]*sql.DB)
 // as the function is loaded. This is primarily to help testing.
 func GetDatabase(databaseName string) *sql.DB {
     if database[databaseName] == nil {
-        databaseConfig := configuration.GetDatabaseConfig(databaseName)
+        databaseConfig := cfg.GetDatabaseConfig(databaseName)
         database[databaseName] = mustConnect(databaseConfig)
     }
 
@@ -21,7 +21,7 @@ func GetDatabase(databaseName string) *sql.DB {
 }
 
 // mustConnect creates a connection to the database based on environment configuration
-func mustConnect(databaseConfig configuration.DatabaseConfig) *sql.DB {
+func mustConnect(databaseConfig cfg.DatabaseConfig) *sql.DB {
     var (
         db  *sql.DB
         err error
