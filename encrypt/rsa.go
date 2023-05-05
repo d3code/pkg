@@ -5,7 +5,7 @@ import (
     "crypto/rsa"
     "crypto/x509"
     "encoding/pem"
-    "github.com/d3code/pkg/log"
+    "fmt"
 )
 
 func RsaGenerate() (*rsa.PrivateKey, *rsa.PublicKey) {
@@ -27,7 +27,7 @@ func RsaPrivateToString(privateKey *rsa.PrivateKey) string {
 func RsaPublicToString(publicKey *rsa.PublicKey) string {
     pkixPublicKey, err := x509.MarshalPKIXPublicKey(publicKey)
     if err != nil {
-        log.Log.Error(err)
+        fmt.Println(err)
         return ""
     }
 
@@ -44,13 +44,13 @@ func RsaPublicToString(publicKey *rsa.PublicKey) string {
 func RsaPrivateFromString(privateKeyPem string) *rsa.PrivateKey {
     block, decodeError := pem.Decode([]byte(privateKeyPem))
     if block == nil {
-        log.Log.Error(decodeError)
+        fmt.Println(decodeError)
         return nil
     }
 
     privateKey, parseError := x509.ParsePKCS1PrivateKey(block.Bytes)
     if parseError != nil {
-        log.Log.Error(parseError)
+        fmt.Println(parseError)
         return nil
     }
 
@@ -60,13 +60,13 @@ func RsaPrivateFromString(privateKeyPem string) *rsa.PrivateKey {
 func RsaPublicFromString(publicKey string) *rsa.PublicKey {
     block, decodeError := pem.Decode([]byte(publicKey))
     if block == nil {
-        log.Log.Error(decodeError)
+        fmt.Println(decodeError)
         return nil
     }
 
     pkixPublicKey, parseError := x509.ParsePKIXPublicKey(block.Bytes)
     if parseError != nil {
-        log.Log.Error(parseError)
+        fmt.Println(parseError)
         return nil
     }
 
@@ -77,6 +77,6 @@ func RsaPublicFromString(publicKey string) *rsa.PublicKey {
         break
     }
 
-    log.Log.Error("Key type is not RSA")
+    fmt.Println("Key type is not RSA")
     return nil
 }
