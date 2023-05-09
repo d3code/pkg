@@ -6,10 +6,6 @@ import (
     "strings"
 )
 
-func ColorString(color string, text string) string {
-    return color + text + COLOR_END
-}
-
 func PrintTemplate(input string) {
     fmt.Println(ColorStringTemplate(input))
 }
@@ -22,11 +18,15 @@ func ColorStringTemplate(input string) string {
         text := strings.TrimSpace(match[1])
         color := Color(match[3])
 
-        output := ColorString(color, text)
+        output := colorString(color, text)
         input = strings.ReplaceAll(input, match[0], output)
     }
 
     return input
+}
+
+func colorString(color string, text string) string {
+    return color + text + COLOR_END
 }
 
 func Color(color string) string {

@@ -12,7 +12,7 @@ func ExitIfError(err error) {
     }
 }
 
-func FatalErrorMessage(err error, message string, printError bool) {
+func ExitIfErrorWithMessage(err error, message string, printError bool) {
     if err != nil {
         fmt.Println(message)
         if printError {
@@ -22,7 +22,7 @@ func FatalErrorMessage(err error, message string, printError bool) {
     }
 }
 
-func Fatal(err string) {
-    fmt.Println(err)
+func Exit(message string) {
+    fmt.Println(message)
     os.Exit(1)
 }
