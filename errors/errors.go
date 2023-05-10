@@ -3,26 +3,18 @@ package errors
 import (
     "fmt"
     "os"
+    "os/exec"
+    "strings"
 )
 
 func ExitIfError(err error) {
     if err != nil {
+        if exitErr, ok := err.(*exec.ExitError); ok {
+            errorString := string(exitErr.Stderr)
+            singleLineError := strings.TrimSuffix(errorString, "\n")
+            fmt.Println(singleLineError)
+        }
         fmt.Println(err)
         os.Exit(1)
     }
-}
-
-func ExitIfErrorWithMessage(err error, message string, printError bool) {
-    if err != nil {
-        fmt.Println(message)
-        if printError {
-            fmt.Println(err)
-        }
-        os.Exit(1)
-    }
-}
-
-func Exit(message string) {
-    fmt.Println(message)
-    os.Exit(1)
 }

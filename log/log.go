@@ -3,73 +3,48 @@ package log
 import (
     "github.com/d3code/pkg/cfg"
     "go.uber.org/zap"
+    "go.uber.org/zap/buffer"
     "go.uber.org/zap/zapcore"
-    "log"
-    "sync"
+    "os"
 )
 
-var Log = getLogger()
+var Log *zap.Logger
 
-var (
-    logger     *zap.SugaredLogger
-    onceLogger sync.Once
-)
-
-func getLogger() *zap.SugaredLogger {
-    onceLogger.Do(func() {
-        InitLogger()
-    })
-    return logger
-}
-
-func InitLogger() {
-
-    loggerConfig := zap.NewProductionConfig()
-    loggerConfig.EncoderConfig = encoderConfig
+func init() {
 
     if cfg.GetEnvironmentOrDefault("environment", "local") == "local" {
-        loggerConfig = zap.NewDevelopmentConfig()
-    }
+        config := encoderConfig
+        config.EncodeTime = encodeTime
+        config.EncodeLevel = encodeLevelColor()
 
-    loggerBuild, err := loggerConfig.Build(zap.AddStacktrace(zapcore.FatalLevel))
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    logger = loggerBuild.Sugar()
-}
-
-var encoderConfig = zapcore.EncoderConfig{
-    TimeKey:        "time",
-    LevelKey:       "severity",
-    NameKey:        "logger",
-    CallerKey:      "caller",
-    MessageKey:     "message",
-    StacktraceKey:  "stacktrace",
-    LineEnding:     zapcore.DefaultLineEnding,
-    EncodeLevel:    encodeLevel(),
-    EncodeTime:     zapcore.RFC3339TimeEncoder,
-    EncodeDuration: zapcore.MillisDurationEncoder,
-    EncodeCaller:   zapcore.ShortCallerEncoder,
-}
-
-func encodeLevel() zapcore.LevelEncoder {
-    return func(l zapcore.Level, enc zapcore.PrimitiveArrayEncoder) {
-        switch l {
-        case zapcore.DebugLevel:
-            enc.AppendString("DEBUG")
-        case zapcore.InfoLevel:
-            enc.AppendString("INFO")
-        case zapcore.WarnLevel:
-            enc.AppendString("WARNING")
-        case zapcore.ErrorLevel:
-            enc.AppendString("ERROR")
-        case zapcore.DPanicLevel:
-            enc.AppendString("CRITICAL")
-        case zapcore.PanicLevel:
-            enc.AppendString("ALERT")
-        case zapcore.FatalLevel:
-            enc.AppendString("EMERGENCY")
+        encoder := &consoleEncoder{
+            Encoder: zapcore.NewConsoleEncoder(config),
+            pool:    buffer.NewPool(),
         }
+        Log = zap.New(
+            zapcore.NewCore(
+                encoder,
+                os.Stdout,
+                zapcore.DebugLevel,
+            ),
+            zap.ErrorOutput(os.Stderr),
+            zap.AddStacktrace(zapcore.FatalLevel),
+            zap.AddCaller(),
+        )
+    } else {
+        encoder := &jsonEncoder{
+            Encoder: zapcore.NewJSONEncoder(encoderConfig),
+            pool:    buffer.NewPool(),
+        }
+        Log = zap.New(
+            zapcore.NewCore(
+                encoder,
+                os.Stdout,
+                zapcore.DebugLevel,
+            ),
+            zap.ErrorOutput(os.Stderr),
+            zap.AddStacktrace(zapcore.FatalLevel),
+            zap.AddCaller(),
+        )
     }
 }
