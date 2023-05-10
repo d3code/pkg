@@ -22,7 +22,11 @@ func PrintTemplate(input string) {
 }
 
 func ColorString(text string, color string) string {
-    return matchColor(color) + text + color_END
+    if strings.HasPrefix(color, "\\033[") {
+        color = matchColor(color)
+    }
+
+    return color + text + color_END
 }
 
 func matchColor(color string) string {
