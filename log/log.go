@@ -8,7 +8,7 @@ import (
     "os"
 )
 
-var Log *zap.Logger
+var Log *zap.SugaredLogger
 
 func init() {
 
@@ -30,7 +30,7 @@ func init() {
             zap.ErrorOutput(os.Stderr),
             zap.AddStacktrace(zapcore.FatalLevel),
             zap.AddCaller(),
-        )
+        ).Sugar()
     } else {
         encoder := &jsonEncoder{
             Encoder: zapcore.NewJSONEncoder(encoderConfig),
@@ -45,6 +45,6 @@ func init() {
             zap.ErrorOutput(os.Stderr),
             zap.AddStacktrace(zapcore.FatalLevel),
             zap.AddCaller(),
-        )
+        ).Sugar()
     }
 }
