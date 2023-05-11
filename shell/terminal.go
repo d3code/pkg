@@ -52,6 +52,16 @@ func RunDir(path string, name string, args ...string) string {
     return strings.TrimSuffix(out, "\n")
 }
 
+func RunOutDir(path string, name string, args ...string) {
+    command := exec.Command(name, args...)
+    command.Stdout = os.Stdout
+    command.Stderr = os.Stderr
+    command.Dir = path
+
+    err := command.Run()
+    errors.ExitIfError(err)
+}
+
 func RunShell(args ...string) string {
     osShell := os.Getenv("SHELL")
     args = append([]string{"-c"}, args...)
