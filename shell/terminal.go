@@ -29,7 +29,16 @@ func Run(name string, args ...string) string {
     output, err := command.Output()
 
     errors.ExitIfError(err)
-    return string(output)
+    out := string(output)
+    return strings.TrimSuffix(out, "\n")
+}
+
+func RunE(name string, args ...string) (string, error) {
+    command := exec.Command(name, args...)
+    output, err := command.Output()
+
+    out := string(output)
+    return strings.TrimSuffix(out, "\n"), err
 }
 
 func RunDir(path string, name string, args ...string) string {
@@ -43,11 +52,16 @@ func RunDir(path string, name string, args ...string) string {
     return strings.TrimSuffix(out, "\n")
 }
 
-func RunE(name string, args ...string) (string, error) {
-    command := exec.Command(name, args...)
+func RunShell(args ...string) string {
+    osShell := os.Getenv("SHELL")
+    args = append([]string{"-c"}, args...)
+    command := exec.Command(osShell, args...)
+
     output, err := command.Output()
 
-    return string(output), err
+    errors.ExitIfError(err)
+    out := string(output)
+    return strings.TrimSuffix(out, "\n")
 }
 
 func CurrentDirectory() string {
