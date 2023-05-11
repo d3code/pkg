@@ -1,6 +1,7 @@
 package shell
 
 import (
+    "fmt"
     "github.com/d3code/pkg/errors"
     "os"
     "os/exec"
@@ -39,6 +40,20 @@ func RunE(name string, args ...string) (string, error) {
 
     out := string(output)
     return strings.TrimSuffix(out, "\n"), err
+}
+
+func RunDirE(path string, name string, args ...string) (string, error) {
+    command := exec.Command(name, args...)
+    command.Dir = path
+
+    output, err := command.Output()
+    if err != nil {
+        fmt.Println(err)
+        return "", err
+    }
+
+    out := string(output)
+    return strings.TrimSuffix(out, "\n"), nil
 }
 
 func RunDir(path string, name string, args ...string) string {
