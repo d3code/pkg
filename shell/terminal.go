@@ -32,6 +32,17 @@ func Run(name string, args ...string) string {
     return string(output)
 }
 
+func RunDir(path string, name string, args ...string) string {
+    command := exec.Command(name, args...)
+    command.Dir = path
+
+    output, err := command.Output()
+
+    errors.ExitIfError(err)
+    out := string(output)
+    return strings.TrimSuffix(out, "\n")
+}
+
 func RunE(name string, args ...string) (string, error) {
     command := exec.Command(name, args...)
     output, err := command.Output()

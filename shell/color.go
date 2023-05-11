@@ -6,7 +6,7 @@ import (
     "strings"
 )
 
-func PrintTemplate(input string) {
+func Println(input string) {
     re := regexp.MustCompile(`{{\s*(([^{}]+)*)\s*\|\s*(\w+)\s*}}`)
     matches := re.FindAllStringSubmatch(input, -1)
 
