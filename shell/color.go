@@ -25,6 +25,7 @@ func ColorString(text string, color string) string {
     if !strings.HasPrefix(color, "\033[") {
         color = matchColor(color)
     }
+
     return color + text + color_END
 }
 
