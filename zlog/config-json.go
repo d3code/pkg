@@ -21,7 +21,6 @@ func (e *jsonEncoder) EncodeEntry(entry zapcore.Entry, fields []zapcore.Field) (
     }
 
     fields = append(fields, zap.String("environment", cfg.GetEnvironmentOrDefault("environment", "local")))
-
     entry.Time = entry.Time.Local()
 
     consoleBuffer, err := e.Encoder.EncodeEntry(entry, fields)
