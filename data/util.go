@@ -2,7 +2,7 @@ package data
 
 import (
     "database/sql"
-    "github.com/d3code/pkg/log"
+    "github.com/d3code/pkg/zlog"
 )
 
 func CloseRows(rows *sql.Rows) {
@@ -13,7 +13,7 @@ func CloseRows(rows *sql.Rows) {
 
         err := rows.Close()
         if err != nil {
-            log.Log.Error(err)
+            zlog.Log.Error(err)
         }
     }(rows)
 }

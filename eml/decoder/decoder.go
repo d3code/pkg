@@ -2,7 +2,7 @@ package decoder
 
 import (
     "bytes"
-    "github.com/d3code/pkg/log"
+    "github.com/d3code/pkg/zlog"
     "golang.org/x/text/encoding/charmap"
     "golang.org/x/text/transform"
     "io"
@@ -108,7 +108,7 @@ func UTF8(cs string, data []byte) ([]byte, error) {
         return io.ReadAll(transform.NewReader(bytes.NewReader(data), charmap.Windows1251.NewDecoder()))
     }
 
-    log.Log.Errorf("Unknown charset: %s", strings.ToUpper(cs))
+    zlog.Log.Errorf("Unknown charset: %s", strings.ToUpper(cs))
     return data, nil
 }
 

@@ -3,7 +3,7 @@ package data
 import (
     "database/sql"
     "github.com/d3code/pkg/cfg"
-    "github.com/d3code/pkg/log"
+    "github.com/d3code/pkg/zlog"
 )
 
 var database = make(map[string]*sql.DB)
@@ -30,29 +30,29 @@ func mustConnect(databaseConfig cfg.DatabaseConfig) *sql.DB {
     if databaseConfig.ConnectionType == "tcp" {
         db, err = connectTCPSocket(databaseConfig)
         if err != nil {
-            log.Log.Fatalf("connectTCPSocket: unable to connect: %s", err)
+            zlog.Log.Fatalf("connectTCPSocket: unable to connect: %s", err)
         }
     } else if databaseConfig.ConnectionType == "unix" {
         db, err = connectUnixSocket(databaseConfig)
         if err != nil {
-            log.Log.Fatalf("connectUnixSocket: unable to connect: %s", err)
+            zlog.Log.Fatalf("connectUnixSocket: unable to connect: %s", err)
         }
     } else if databaseConfig.ConnectionType == "connector" {
         db, err = connectWithConnector(databaseConfig)
         if err != nil {
-            log.Log.Fatalf("connectConnector: unable to connect: %s", err)
+            zlog.Log.Fatalf("connectConnector: unable to connect: %s", err)
         }
     } else {
-        log.Log.Fatal("Missing database connection_type")
+        zlog.Log.Fatal("Missing database connection_type")
     }
 
     if db == nil {
-        log.Log.Fatal("Database was not created")
+        zlog.Log.Fatal("Database was not created")
     }
 
     pingError := db.Ping()
     if pingError != nil {
-        log.Log.Fatal(pingError)
+        zlog.Log.Fatal(pingError)
     }
 
     return db

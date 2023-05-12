@@ -5,7 +5,7 @@ import (
     "errors"
     "fmt"
     "github.com/MicahParks/keyfunc"
-    "github.com/d3code/pkg/log"
+    "github.com/d3code/pkg/zlog"
     "github.com/gin-gonic/gin"
     "github.com/golang-jwt/jwt/v4"
     "strings"
@@ -20,26 +20,26 @@ func GetValidTokenFromRequst(c *gin.Context, jwksUrl string, cacheExpiration tim
 
     jwksString := GetJwks(jwksUrl, cacheExpiration)
     if jwksString == nil {
-        log.Log.Error("Missing JWKS")
+        zlog.Log.Error("Missing JWKS")
         return nil, nil
     }
 
     jwksJSON := json.RawMessage(*jwksString)
     jwks, jsonError := keyfunc.NewJSON(jwksJSON)
     if jsonError != nil {
-        log.Log.Error(jsonError)
+        zlog.Log.Error(jsonError)
         return nil, nil
     }
 
     token, jwtParseError := jwt.Parse(*headerToken, jwks.Keyfunc)
     if jwtParseError != nil {
-        log.Log.Error(jwtParseError)
+        zlog.Log.Error(jwtParseError)
         return nil, nil
     }
 
     claims, claimsError := GetClaims(*token)
     if claimsError != nil {
-        log.Log.Error(claimsError)
+        zlog.Log.Error(claimsError)
         return token, nil
     }
 
@@ -71,7 +71,7 @@ func GetTokenStringFromRequest(c *gin.Context) *string {
     tokenString := strings.Split(authorizationHeader, " ")
 
     if len(tokenString) != 2 || tokenString[0] != "Bearer" {
-        log.Log.Warnw("Invalid Authorization header", "value", authorizationHeader)
+        zlog.Log.Warnw("Invalid Authorization header", "value", authorizationHeader)
         return nil
     }
 

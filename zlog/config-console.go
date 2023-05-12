@@ -1,4 +1,4 @@
-package log
+package zlog
 
 import (
     "github.com/d3code/pkg/shell"

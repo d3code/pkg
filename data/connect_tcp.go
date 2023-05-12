@@ -7,7 +7,7 @@ import (
     "errors"
     "fmt"
     "github.com/d3code/pkg/cfg"
-    "github.com/d3code/pkg/log"
+    "github.com/d3code/pkg/zlog"
     "github.com/go-sql-driver/mysql"
     "io/ioutil"
 )
@@ -25,7 +25,7 @@ func connectTCPSocket(databaseConfig cfg.DatabaseConfig) (*sql.DB, error) {
     // configureSSLCertificates if databaseConfig.RootCertPath is present
     connectionStringOptionSSL, err := configureSSLCertificates(databaseConfig)
     if err != nil {
-        log.Log.Error(err)
+        zlog.Log.Error(err)
         return nil, err
     }
 
@@ -36,7 +36,7 @@ func connectTCPSocket(databaseConfig cfg.DatabaseConfig) (*sql.DB, error) {
     // databaseConnection is the pool of database connections.
     databaseConnection, err := sql.Open("mysql", connectionString)
     if err != nil {
-        log.Log.Error(err)
+        zlog.Log.Error(err)
         return nil, err
     }
 
@@ -57,7 +57,7 @@ func configureSSLCertificates(databaseConfig cfg.DatabaseConfig) (string, error)
 
         pem, err := ioutil.ReadFile(rootCert)
         if err != nil {
-            log.Log.Error(err)
+            zlog.Log.Error(err)
             return "", err
         }
 
@@ -68,7 +68,7 @@ func configureSSLCertificates(databaseConfig cfg.DatabaseConfig) (string, error)
 
         cert, err := tls.LoadX509KeyPair(certPath, keyPath)
         if err != nil {
-            log.Log.Error(err)
+            zlog.Log.Error(err)
             return "", err
         }
 
@@ -79,7 +79,7 @@ func configureSSLCertificates(databaseConfig cfg.DatabaseConfig) (string, error)
             VerifyPeerCertificate: verifyPeerCertFunc(certPool),
         })
         if err != nil {
-            log.Log.Error(err)
+            zlog.Log.Error(err)
             return "", err
         }
 

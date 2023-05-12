@@ -4,7 +4,7 @@ import (
     "database/sql"
     "fmt"
     "github.com/d3code/pkg/cfg"
-    "github.com/d3code/pkg/log"
+    "github.com/d3code/pkg/zlog"
     _ "github.com/go-sql-driver/mysql"
 )
 
@@ -22,7 +22,7 @@ func connectUnixSocket(databaseConfig cfg.DatabaseConfig) (*sql.DB, error) {
     // databaseConnection is the pool of databaseConnection connections.
     databaseConnection, err := sql.Open("mysql", connectionString)
     if err != nil {
-        log.Log.Error(err)
+        zlog.Log.Error(err)
         return nil, err
     }
 
