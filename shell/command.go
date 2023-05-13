@@ -2,7 +2,7 @@ package shell
 
 import (
     "fmt"
-    "github.com/d3code/pkg/errors"
+    "github.com/d3code/pkg/xerr"
     "os"
     "os/exec"
     "strings"
@@ -14,7 +14,7 @@ func RunOut(name string, args ...string) {
     command.Stderr = os.Stderr
 
     err := command.Run()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 }
 
 func RunOutE(name string, args ...string) error {
@@ -29,7 +29,7 @@ func Run(name string, args ...string) string {
     command := exec.Command(name, args...)
     output, err := command.Output()
 
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
     out := string(output)
     return strings.TrimSuffix(out, "\n")
 }
@@ -62,7 +62,7 @@ func RunDir(path string, name string, args ...string) string {
 
     output, err := command.Output()
 
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
     out := string(output)
     return strings.TrimSuffix(out, "\n")
 }
@@ -74,7 +74,7 @@ func RunOutDir(path string, name string, args ...string) {
     command.Dir = path
 
     err := command.Run()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 }
 
 func RunShell(args ...string) string {
@@ -84,12 +84,7 @@ func RunShell(args ...string) string {
 
     output, err := command.Output()
 
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
     out := string(output)
     return strings.TrimSuffix(out, "\n")
-}
-
-func CurrentDirectory() string {
-    pwd := Run("pwd")
-    return strings.TrimSuffix(pwd, "\n")
 }

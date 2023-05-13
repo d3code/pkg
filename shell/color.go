@@ -7,12 +7,12 @@ import (
 )
 
 func Println(input string) {
-    re := regexp.MustCompile(`{{\s*(([^{}]+)*)\s*\|\s*(\w+)\s*}}`)
+    re := regexp.MustCompile(`[{]{2,}([^{|}]*)\|+([^{|}]*)[}]{2,}`)
     matches := re.FindAllStringSubmatch(input, -1)
 
     for _, match := range matches {
         text := strings.TrimSpace(match[1])
-        color := matchColor(match[3])
+        color := strings.TrimSpace(match[2])
 
         output := ColorString(text, color)
         input = strings.ReplaceAll(input, match[0], output)

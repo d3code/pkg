@@ -1,8 +1,21 @@
 package shell
 
 import (
+    "os"
     "strings"
 )
+
+var home string
+
+func init() {
+    dir, err := os.UserHomeDir()
+    if err != nil {
+        Println("Could not get user home directory")
+        os.Exit(1)
+    }
+
+    home = dir
+}
 
 func FullPath(directory string) string {
     var path string
@@ -12,4 +25,13 @@ func FullPath(directory string) string {
         path = CurrentDirectory() + "/" + directory
     }
     return path
+}
+
+func UserHomeDirectory() string {
+    return home
+}
+
+func CurrentDirectory() string {
+    pwd := Run("pwd")
+    return strings.TrimSuffix(pwd, "\n")
 }

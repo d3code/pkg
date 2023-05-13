@@ -2,7 +2,7 @@ package files
 
 import (
     "fmt"
-    "github.com/d3code/pkg/errors"
+    "github.com/d3code/pkg/xerr"
     "os"
 )
 
@@ -13,7 +13,7 @@ func Exist(file string) bool {
 
 func Save(path string, fileName string, byteArray []byte, overwrite bool) error {
     err := os.MkdirAll(path, 0755)
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     file := fmt.Sprintf("%s/%s", path, fileName)
 
