@@ -1,7 +1,6 @@
 package shell
 
 import (
-    "fmt"
     "github.com/d3code/pkg/xerr"
     "os"
     "os/exec"
@@ -48,7 +47,6 @@ func RunDirE(path string, name string, args ...string) (string, error) {
 
     output, err := command.Output()
     if err != nil {
-        fmt.Println(err)
         return "", err
     }
 
