@@ -4,14 +4,14 @@ import (
     "crypto/rand"
     "crypto/rsa"
     "crypto/sha512"
-    "github.com/d3code/pkg/zlog"
+    "fmt"
     "os"
 )
 
 func RsaEncrypt(toEncrypt string, privateKeyPath string) *string {
     if m, err := os.Stat(privateKeyPath); err != nil || m.IsDir() {
 
-        zlog.Log.Error("Could not find private key to encrypt")
+        fmt.Println("Could not find private key to encrypt")
         return nil
 
     } else {
@@ -29,7 +29,7 @@ func RsaEncrypt(toEncrypt string, privateKeyPath string) *string {
 func RsaDecrypt(toDecrypt string, privateKeyPath string) *string {
     if m, err := os.Stat(privateKeyPath); err != nil || m.IsDir() {
 
-        zlog.Log.Error("Could not find private key to decrypt")
+        fmt.Println("Could not find private key to decrypt")
         return nil
 
     } else {
@@ -49,7 +49,7 @@ func EncryptWithPublicKey(message string, publicKey *rsa.PublicKey) string {
     hash := sha512.New()
     ciphertext, err := rsa.EncryptOAEP(hash, rand.Reader, publicKey, []byte(message), nil)
     if err != nil {
-        zlog.Log.Error(err)
+        fmt.Println(err)
     }
     base64Bytes := Base64Encode(ciphertext)
     return string(base64Bytes)
@@ -61,7 +61,7 @@ func DecryptWithPrivateKey(ciphertext string, privateKey *rsa.PrivateKey) string
     base64Decode, _ := Base64Decode([]byte(ciphertext))
     plaintext, err := rsa.DecryptOAEP(hash, rand.Reader, privateKey, base64Decode, nil)
     if err != nil {
-        zlog.Log.Error(err)
+        fmt.Println(err)
     }
     return string(plaintext)
 }

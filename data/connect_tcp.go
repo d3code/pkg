@@ -7,7 +7,7 @@ import (
     "errors"
     "fmt"
     "github.com/d3code/pkg/cfg"
-    "github.com/d3code/pkg/zlog"
+    "github.com/d3code/zlog"
     "github.com/go-sql-driver/mysql"
     "io/ioutil"
 )

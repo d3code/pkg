@@ -2,7 +2,7 @@ package data
 
 import (
     "database/sql"
-    "github.com/d3code/pkg/zlog"
+    "github.com/d3code/zlog"
 )
 
 func CloseRows(rows *sql.Rows) {

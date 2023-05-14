@@ -5,7 +5,7 @@ import (
     "errors"
     "fmt"
     "github.com/MicahParks/keyfunc"
-    "github.com/d3code/pkg/zlog"
+    "github.com/d3code/zlog"
     "github.com/gin-gonic/gin"
     "github.com/golang-jwt/jwt/v4"
     "strings"

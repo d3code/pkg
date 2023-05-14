@@ -2,7 +2,7 @@ package decoder
 
 import (
     "bytes"
-    "github.com/d3code/pkg/zlog"
+    "github.com/d3code/zlog"
     "golang.org/x/text/encoding/charmap"
     "golang.org/x/text/transform"
     "io"

@@ -3,7 +3,7 @@ package data
 import (
     "database/sql"
     "github.com/d3code/pkg/cfg"
-    "github.com/d3code/pkg/zlog"
+    "github.com/d3code/zlog"
 )
 
 var database = make(map[string]*sql.DB)

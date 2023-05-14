@@ -4,7 +4,7 @@ import (
     "database/sql"
     "fmt"
     "github.com/d3code/pkg/cfg"
-    "github.com/d3code/pkg/zlog"
+    "github.com/d3code/zlog"
     _ "github.com/go-sql-driver/mysql"
 )
 

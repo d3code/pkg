@@ -1,7 +1,7 @@
 package jwt
 
 import (
-    "github.com/d3code/pkg/zlog"
+    "github.com/d3code/zlog"
     "github.com/patrickmn/go-cache"
     "io"
     "net/http"
