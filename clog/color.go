@@ -1,31 +1,40 @@
-package shell
+package clog
 
 import (
-    "fmt"
     "regexp"
     "strings"
 )
-
-func Println(input string) {
-    re := regexp.MustCompile(`[{]{2,}([^{|}]*)\|+([^{|}]*)[}]{2,}`)
-    matches := re.FindAllStringSubmatch(input, -1)
-
-    for _, match := range matches {
-        text := strings.TrimSpace(match[1])
-        color := strings.TrimSpace(match[2])
-
-        output := ColorString(text, color)
-        input = strings.ReplaceAll(input, match[0], output)
-    }
-
-    fmt.Println(input)
-}
 
 func ColorString(text string, color string) string {
     if !strings.HasPrefix(color, "\033[") {
         color = matchColor(color)
     }
     return color + text + color_END
+}
+
+func colorMatchTemplate(message string) string {
+    re := regexp.MustCompile(`[{]{2}([^{|}]*)\|+([^{|}]*)[}]{2}`)
+    matches := re.FindAllStringSubmatch(message, -1)
+
+    for _, match := range matches {
+        text := strings.TrimSpace(match[1])
+        color := strings.TrimSpace(match[2])
+
+        output := ColorString(text, color)
+        message = strings.ReplaceAll(message, match[0], output)
+    }
+    return message
+}
+
+func removeColor(message string) string {
+    re := regexp.MustCompile(`(\033\[\d+m)`)
+    matches := re.FindAllStringSubmatch(message, -1)
+
+    for _, match := range matches {
+        message = strings.ReplaceAll(message, match[0], "")
+    }
+
+    return message
 }
 
 func matchColor(color string) string {
@@ -97,7 +106,7 @@ func matchColor(color string) string {
     case "redbg2":
         return color_REDBG2
     case "greenbg2":
-        return color_GREENBG
+        return color_GREENBG2
     case "yellowbg2":
         return color_YELLOWBG2
     case "bluebg2":

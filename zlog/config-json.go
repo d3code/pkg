@@ -2,7 +2,7 @@ package zlog
 
 import (
     "github.com/d3code/pkg/cfg"
-    "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/clog"
     "go.uber.org/zap"
     "go.uber.org/zap/buffer"
     "go.uber.org/zap/zapcore"
@@ -17,7 +17,7 @@ func (e *jsonEncoder) EncodeEntry(entry zapcore.Entry, fields []zapcore.Field) (
     buf := e.pool.Get()
 
     if entry.Level == zapcore.DebugLevel {
-        entry.Message = shell.ColorString(entry.Message, "grey")
+        entry.Message = clog.ColorString(entry.Message, "grey")
     }
 
     fields = append(fields, zap.String("environment", cfg.GetEnvironmentOrDefault("environment", "local")))

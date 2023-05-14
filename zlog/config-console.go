@@ -1,7 +1,7 @@
 package zlog
 
 import (
-    "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/clog"
     "go.uber.org/zap/buffer"
     "go.uber.org/zap/zapcore"
     "time"
@@ -16,7 +16,7 @@ func (e *consoleEncoder) EncodeEntry(entry zapcore.Entry, fields []zapcore.Field
     buf := e.pool.Get()
 
     if entry.Level == zapcore.DebugLevel {
-        entry.Message = shell.ColorString(entry.Message, "grey")
+        entry.Message = clog.ColorString(entry.Message, "grey")
     }
 
     entry.Time = entry.Time.Local()
@@ -36,18 +36,18 @@ func (e *consoleEncoder) EncodeEntry(entry zapcore.Entry, fields []zapcore.Field
 
 func encodeTime(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
     format := t.Format(time.RFC3339)
-    greyTime := shell.ColorString(format, "grey")
+    greyTime := clog.ColorString(format, "grey")
     enc.AppendString(greyTime)
 }
 
 func encodeLevelColor() zapcore.LevelEncoder {
-    debug := shell.ColorString("DEBUG", "grey")
-    info := shell.ColorString("INFO", "blue")
-    warning := shell.ColorString("WARNING", "yellow")
-    errorLevel := shell.ColorString("ERROR", "red")
-    critical := shell.ColorString("CRITICAL", "red")
-    alert := shell.ColorString("ALERT", "red")
-    emergency := shell.ColorString("EMERGENCY", "red")
+    debug := clog.ColorString("DEBUG", "grey")
+    info := clog.ColorString("INFO", "blue")
+    warning := clog.ColorString("WARNING", "yellow")
+    errorLevel := clog.ColorString("ERROR", "red")
+    critical := clog.ColorString("CRITICAL", "red")
+    alert := clog.ColorString("ALERT", "red")
+    emergency := clog.ColorString("EMERGENCY", "red")
 
     return func(l zapcore.Level, enc zapcore.PrimitiveArrayEncoder) {
 
