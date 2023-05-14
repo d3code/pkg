@@ -26,6 +26,14 @@ func InfoL(inputLines ...string) {
     fmt.Println(message)
 }
 
+func Debug(title string, message string) {
+    message = removeColor(message)
+    message = fmt.Sprintf("[ %s ] %s", title, message)
+    message = ColorString(message, "grey")
+
+    Info(message)
+}
+
 func Underline(message ...string) {
     title := strings.Join(message, " ")
     title = colorMatchTemplate(title)
