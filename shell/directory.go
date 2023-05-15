@@ -20,11 +20,15 @@ func init() {
 
 func FullPath(directory string) string {
     var path string
-    if strings.HasPrefix(directory, "/") {
+
+    if directory == "" || directory == "." {
+        path = CurrentDirectory()
+    } else if strings.HasPrefix(directory, "/") {
         path = directory
     } else {
         path = CurrentDirectory() + "/" + directory
     }
+
     return path
 }
 
@@ -33,6 +37,6 @@ func UserHomeDirectory() string {
 }
 
 func CurrentDirectory() string {
-    pwd := Run("pwd")
-    return strings.TrimSuffix(pwd, "\n")
+    pwd := RunCmd(".", false, "pwd")
+    return strings.TrimSuffix(pwd.Stdout, "\n")
 }

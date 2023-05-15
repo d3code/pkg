@@ -9,7 +9,7 @@ import (
     "github.com/d3code/pkg/cfg"
     "github.com/d3code/zlog"
     "github.com/go-sql-driver/mysql"
-    "io/ioutil"
+    "os"
 )
 
 // connectTCPSocket initializes a TCP connection pool
@@ -55,7 +55,7 @@ func configureSSLCertificates(databaseConfig cfg.DatabaseConfig) (string, error)
             keyPath  = databaseConfig.KeyPath  // e.g. '/path/to/my/client-key.pem'
         )
 
-        pem, err := ioutil.ReadFile(rootCert)
+        pem, err := os.ReadFile(rootCert)
         if err != nil {
             zlog.Log.Error(err)
             return "", err

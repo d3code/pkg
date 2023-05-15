@@ -7,7 +7,7 @@ import (
     "errors"
     "fmt"
     "github.com/d3code/pkg/eml/decoder"
-    "io/ioutil"
+    "io"
     "mime/quotedprintable"
     "regexp"
     "strings"
@@ -200,7 +200,7 @@ func Process(rawMessage RawMessage) (message *Message, err error) {
                                     fmt.Println(er, "failed decode base64")
                                 }
                             case "quoted-printable":
-                                part.Data, _ = ioutil.ReadAll(quotedprintable.NewReader(bytes.NewReader(part.Data)))
+                                part.Data, _ = io.ReadAll(quotedprintable.NewReader(bytes.NewReader(part.Data)))
                             }
                         }
                         message.Attachments = append(message.Attachments, Attachment{filename[1], part.Data})

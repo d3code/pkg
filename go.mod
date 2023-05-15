@@ -5,11 +5,12 @@ go 1.20
 require (
 	cloud.google.com/go/cloudsqlconn v1.2.4
 	github.com/MicahParks/keyfunc v1.9.0
+	github.com/d3code/clog v0.0.0-20230514062324-d6a832c3a6fb
+	github.com/d3code/zlog v0.0.0-20230514152442-1cff4f9e6f8f
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
-	go.uber.org/zap v1.24.0
 	golang.org/x/text v0.9.0
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -42,6 +43,7 @@ require (
 	go.opencensus.io v0.24.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
+	go.uber.org/zap v1.24.0 // indirect
 	golang.org/x/arch v0.3.0 // indirect
 	golang.org/x/crypto v0.9.0 // indirect
 	golang.org/x/net v0.10.0 // indirect

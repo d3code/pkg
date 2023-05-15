@@ -1,7 +1,7 @@
 package shell
 
 func Installed(binary string) bool {
-    _, err := RunE("which", binary)
+    _, err := RunCmdE(".", false, "which", binary)
     if err != nil {
         return false
     }

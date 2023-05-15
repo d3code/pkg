@@ -3,7 +3,7 @@ package cfg
 import (
     "fmt"
     "gopkg.in/yaml.v3"
-    "io/ioutil"
+    "os"
     "sync"
 )
 
@@ -32,7 +32,7 @@ func GetDatabaseConfig(databaseName string) DatabaseConfig {
         configLocation := GetEnvironmentOrDefault("config_location", "config")
 
         configPath := fmt.Sprintf("%s/database_%s_%s.yaml", configLocation, databaseName, environment)
-        configFile, err := ioutil.ReadFile(configPath)
+        configFile, err := os.ReadFile(configPath)
         if err != nil {
             panic(err)
         }

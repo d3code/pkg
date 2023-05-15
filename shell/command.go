@@ -1,88 +1,88 @@
 package shell
 
 import (
-    "github.com/d3code/pkg/xerr"
+    "bytes"
+    "github.com/d3code/clog"
+    "io"
     "os"
     "os/exec"
     "strings"
 )
 
-func RunOut(name string, args ...string) {
-    command := exec.Command(name, args...)
-    command.Stdout = os.Stdout
-    command.Stderr = os.Stderr
-
-    err := command.Run()
-    xerr.ExitIfError(err)
+type CommandResponse struct {
+    Stdout string
+    Stderr string
 }
 
-func RunOutE(name string, args ...string) error {
-    command := exec.Command(name, args...)
-    command.Stdout = os.Stdout
-    command.Stderr = os.Stderr
-
-    return command.Run()
-}
-
-func Run(name string, args ...string) string {
-    command := exec.Command(name, args...)
-    output, err := command.Output()
-
-    xerr.ExitIfError(err)
-    out := string(output)
-    return strings.TrimSuffix(out, "\n")
-}
-
-func RunE(name string, args ...string) (string, error) {
-    command := exec.Command(name, args...)
-    output, err := command.Output()
-
-    out := string(output)
-    return strings.TrimSuffix(out, "\n"), err
-}
-
-func RunDirE(path string, name string, args ...string) (string, error) {
-    command := exec.Command(name, args...)
-    command.Dir = path
-
-    output, err := command.Output()
-    if err != nil {
-        return "", err
+func RunCmdE(path string, stdout bool, program string, args ...string) (CommandResponse, error) {
+    debugLogging(program, args)
+    command := exec.Command(program, args...)
+    if path != "" && path != "." {
+        command.Dir = path
     }
 
-    out := string(output)
-    return strings.TrimSuffix(out, "\n"), nil
-}
-
-func RunDir(path string, name string, args ...string) string {
-    command := exec.Command(name, args...)
-    command.Dir = path
-
-    output, err := command.Output()
-
-    xerr.ExitIfError(err)
-    out := string(output)
-    return strings.TrimSuffix(out, "\n")
-}
-
-func RunOutDir(path string, name string, args ...string) {
-    command := exec.Command(name, args...)
-    command.Stdout = os.Stdout
-    command.Stderr = os.Stderr
-    command.Dir = path
-
+    outBytes, errBytes := writer(command, stdout)
     err := command.Run()
-    xerr.ExitIfError(err)
+
+    return CommandResponse{
+        Stdout: strings.TrimSuffix(outBytes.String(), "\n"),
+        Stderr: strings.TrimSuffix(errBytes.String(), "\n"),
+    }, err
 }
 
-func RunShell(args ...string) string {
+func RunCmd(path string, stdout bool, program string, args ...string) CommandResponse {
+    commandResponse, err := RunCmdE(path, stdout, program, args...)
+    if err != nil {
+        if !stdout {
+            if commandResponse.Stderr != "" {
+                clog.Error(commandResponse.Stderr)
+            } else if commandResponse.Stdout != "" {
+                clog.Error(commandResponse.Stdout)
+            } else {
+                clog.Error(err.Error())
+            }
+        }
+        os.Exit(1)
+    }
+
+    return commandResponse
+}
+
+func RunShell(stdout bool, args ...string) CommandResponse {
     osShell := os.Getenv("SHELL")
     args = append([]string{"-c"}, args...)
-    command := exec.Command(osShell, args...)
 
-    output, err := command.Output()
+    return RunCmd(".", stdout, osShell, args...)
+}
 
-    xerr.ExitIfError(err)
-    out := string(output)
-    return strings.TrimSuffix(out, "\n")
+func writer(cmd *exec.Cmd, stdout bool) (*bytes.Buffer, *bytes.Buffer) {
+    outBytes := new(bytes.Buffer)
+    errBytes := new(bytes.Buffer)
+
+    var outWriter io.Writer
+    var errWriter io.Writer
+
+    if stdout {
+        outWriter = io.MultiWriter(os.Stdout, outBytes)
+        errWriter = io.MultiWriter(os.Stderr, errBytes)
+    } else {
+        outWriter = io.Writer(outBytes)
+        errWriter = io.Writer(errBytes)
+    }
+
+    cmd.Stdout = outWriter
+    cmd.Stderr = errWriter
+
+    return outBytes, errBytes
+}
+
+func debugLogging(program string, args []string) {
+    cm := append([]string{"[ exec ]", program})
+    for _, arg := range args {
+        if strings.Contains(arg, " ") {
+            arg = "\"" + arg + "\""
+        }
+        cm = append(cm, arg)
+    }
+    clog.Debug(cm...)
 }

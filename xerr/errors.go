@@ -1,7 +1,7 @@
 package xerr
 
 import (
-    "fmt"
+    "github.com/d3code/clog"
     "os"
     "os/exec"
     "strings"
@@ -10,11 +10,11 @@ import (
 func ExitIfError(err error) {
     if err != nil {
         if exitErr, ok := err.(*exec.ExitError); ok {
-            errorString := string(exitErr.Stderr)
-            singleLineError := strings.TrimSuffix(errorString, "\n")
-            fmt.Println(singleLineError)
+            clog.Error(strings.TrimSuffix(string(exitErr.Stderr), "\n"))
+        } else {
+            clog.Error(err.Error())
         }
-        fmt.Println(err)
+
         os.Exit(1)
     }
 }
