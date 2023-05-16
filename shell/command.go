@@ -70,6 +70,7 @@ func writer(cmd *exec.Cmd, stdout bool) (*bytes.Buffer, *bytes.Buffer) {
         errWriter = io.Writer(errBytes)
     }
 
+    cmd.Stdin = os.Stdin
     cmd.Stdout = outWriter
     cmd.Stderr = errWriter
 
