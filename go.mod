@@ -5,8 +5,8 @@ go 1.20
 require (
 	cloud.google.com/go/cloudsqlconn v1.2.4
 	github.com/MicahParks/keyfunc v1.9.0
-	github.com/d3code/clog v0.0.0-20230515041143-21bdf64d6f34
-	github.com/d3code/zlog v0.0.0-20230515043339-ec21bd314870
+	github.com/d3code/clog v0.0.0-20230516113731-01d420d48fe2
+	github.com/d3code/zlog v0.0.0-20230516170840-8372b6700c30
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/golang-jwt/jwt/v4 v4.5.0

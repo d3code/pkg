@@ -28,10 +28,10 @@ github.com/cncf/udpa/go v0.0.0-20210930031921-04548b0d99d4/go.mod h1:6pvJx4me5XP
 github.com/cncf/xds/go v0.0.0-20210805033703-aa0b78936158/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/cncf/xds/go v0.0.0-20210922020428-25de7278fc84/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/cncf/xds/go v0.0.0-20211011173535-cb28da3451f1/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
-github.com/d3code/clog v0.0.0-20230515041143-21bdf64d6f34 h1:p4ZnCMCrRvyvBArG1ubUJjkkgNyy9MnCrN9pueKZksU=
-github.com/d3code/clog v0.0.0-20230515041143-21bdf64d6f34/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
-github.com/d3code/zlog v0.0.0-20230515043339-ec21bd314870 h1:cat1+6HmILyiZAyhbBvuAbcDiPM1Lfe0l0xuzaTRlOw=
-github.com/d3code/zlog v0.0.0-20230515043339-ec21bd314870/go.mod h1:cbReze0nxeAITm9IelxSdGv3objyoHKLIAAaYFMNZdw=
+github.com/d3code/clog v0.0.0-20230516113731-01d420d48fe2 h1:PujIisgKwie5PCtOEGMOtZs16AdmfUEb38N49oaYSJY=
+github.com/d3code/clog v0.0.0-20230516113731-01d420d48fe2/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
+github.com/d3code/zlog v0.0.0-20230516170840-8372b6700c30 h1:mTT6Np2cJ1/ZwBmlOLhZjq2l7XI4n2yQdlou6KntQr4=
+github.com/d3code/zlog v0.0.0-20230516170840-8372b6700c30/go.mod h1:v1xWkaqVNIH4RzPvwumbCLV7oJ0NwHpRTD6eujtIMQM=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
