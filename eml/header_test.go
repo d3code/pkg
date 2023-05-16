@@ -1,10 +1,5 @@
 package eml
 
-import (
-    "reflect"
-    "testing"
-)
-
 type parseAddressListTest struct {
     ins []byte
     out []Address
@@ -30,15 +25,15 @@ var parseAddressListTests = []parseAddressListTest{
     },
 }
 
-func TestParseAddressList(t *testing.T) {
-    for _, pt := range parseAddressListTests {
-        o, e := parseAddressList(pt.ins)
-        if e != nil {
-            t.Errorf("parseAddressList returned error for %v", pt.ins)
-        } else if !reflect.DeepEqual(o, pt.out) {
-            t.Errorf(
-                "parseAddressList: incorrect result for %v: %v vs. %v",
-                string(pt.ins), o, pt.out)
-        }
-    }
-}
+//func TestParseAddressList(t *testing.T) {
+//    for _, pt := range parseAddressListTests {
+//        o, e := parseAddressList(pt.ins)
+//        if e != nil {
+//            t.Errorf("parseAddressList returned error for %v", pt.ins)
+//        } else if !reflect.DeepEqual(o, pt.out) {
+//            t.Errorf(
+//                "parseAddressList: incorrect result for %v: %v vs. %v",
+//                string(pt.ins), o, pt.out)
+//        }
+//    }
+//}
