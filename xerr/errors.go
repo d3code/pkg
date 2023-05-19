@@ -14,7 +14,6 @@ func ExitIfError(err error) {
         } else {
             clog.Error(err.Error())
         }
-
         os.Exit(1)
     }
 }
