@@ -38,5 +38,5 @@ func UserHomeDirectory() string {
 
 func CurrentDirectory() string {
     pwd := RunCmd(".", false, "pwd")
-    return strings.TrimSuffix(pwd.Out, "\n")
+    return strings.TrimSuffix(pwd.Stdout, "\n")
 }

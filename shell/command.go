@@ -10,8 +10,8 @@ import (
 )
 
 type CommandResponse struct {
-    Out string
-    Err string
+    Stdout string
+    Stderr string
 }
 
 func RunCmdE(path string, stdout bool, program string, args ...string) (CommandResponse, error) {
@@ -25,8 +25,8 @@ func RunCmdE(path string, stdout bool, program string, args ...string) (CommandR
     err := command.Run()
 
     return CommandResponse{
-        Out: strings.TrimSuffix(outBytes.String(), "\n"),
-        Err: strings.TrimSuffix(errBytes.String(), "\n"),
+        Stdout: strings.TrimSuffix(outBytes.String(), "\n"),
+        Stderr: strings.TrimSuffix(errBytes.String(), "\n"),
     }, err
 }
 
@@ -34,10 +34,10 @@ func RunCmd(path string, stdout bool, program string, args ...string) CommandRes
     commandResponse, err := RunCmdE(path, stdout, program, args...)
     if err != nil {
         if !stdout {
-            if commandResponse.Err != "" {
-                clog.Error(commandResponse.Err)
-            } else if commandResponse.Out != "" {
-                clog.Error(commandResponse.Out)
+            if commandResponse.Stderr != "" {
+                clog.Error(commandResponse.Stderr)
+            } else if commandResponse.Stdout != "" {
+                clog.Error(commandResponse.Stdout)
             } else {
                 clog.Error(err.Error())
             }
