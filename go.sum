@@ -28,8 +28,8 @@ github.com/cncf/xds/go v0.0.0-20210922020428-25de7278fc84/go.mod h1:eXthEFrGJvWH
 github.com/cncf/xds/go v0.0.0-20211011173535-cb28da3451f1/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/d3code/clog v0.0.0-20230529101921-5e6eb17b787b h1:n16eg6tTLObOw/LHk2mPzOnKy73NamUcmmrWsvOPdlA=
 github.com/d3code/clog v0.0.0-20230529101921-5e6eb17b787b/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
-github.com/d3code/zlog v0.0.0-20230529203053-0a68727b63fc h1:yW4VVsIAKA2b9Ezb8+3xGDg6CY2hJYLZOQNbiveY9qA=
-github.com/d3code/zlog v0.0.0-20230529203053-0a68727b63fc/go.mod h1:wVNjFjqAo+IbZq1OxJvxri8+yDkEMFcwwpm3PVJuJQQ=
+github.com/d3code/zlog v0.0.0-20230529212016-ead10d61a875 h1:1JgpauS8QCejdEQKr9WW2MQs2wFjYTbL3s8hjFeHJh4=
+github.com/d3code/zlog v0.0.0-20230529212016-ead10d61a875/go.mod h1:wVNjFjqAo+IbZq1OxJvxri8+yDkEMFcwwpm3PVJuJQQ=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

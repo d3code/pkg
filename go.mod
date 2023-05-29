@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/cloudsqlconn v1.2.4
 	github.com/MicahParks/keyfunc v1.9.0
 	github.com/d3code/clog v0.0.0-20230529101921-5e6eb17b787b
-	github.com/d3code/zlog v0.0.0-20230529203053-0a68727b63fc
+	github.com/d3code/zlog v0.0.0-20230529212016-ead10d61a875
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/golang-jwt/jwt/v4 v4.5.0
