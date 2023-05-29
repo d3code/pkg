@@ -49,9 +49,9 @@ func RunCmd(path string, stdout bool, program string, args ...string) CommandRes
 }
 
 func RunShell(stdout bool, args ...string) CommandResponse {
-    osShell := os.Getenv("SHELL")
     args = append([]string{"-c"}, args...)
 
+    osShell := os.Getenv("SHELL")
     return RunCmd(".", stdout, osShell, args...)
 }
 
