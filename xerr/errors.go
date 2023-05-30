@@ -10,9 +10,14 @@ import (
 func ExitIfError(err error) {
     if err != nil {
         if exitErr, ok := err.(*exec.ExitError); ok {
-            clog.Error(strings.TrimSuffix(string(exitErr.Stderr), "\n"))
+            stderr := string(exitErr.Stderr)
+            clog.Error(strings.TrimSuffix(stderr, "\n"))
         } else {
-            clog.Error(err.Error())
+            s := err.Error()
+            if s == "^C" {
+                os.Exit(0)
+            }
+            clog.Error(s)
         }
         os.Exit(1)
     }
