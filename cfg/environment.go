@@ -1,16 +1,40 @@
 package cfg
 
 import (
+    "github.com/d3code/zlog"
     "os"
     "reflect"
+    "regexp"
     "strings"
 )
 
 func GetEnvironmentOrDefault(key string, fallback string) string {
     if value, ok := os.LookupEnv(key); ok {
+        zlog.Log.Debugf("%s [ %s ]", key, value)
         return value
     }
+
+    zlog.Log.Debugf("%s [ %s ] (fallback)", key, fallback)
     return fallback
+}
+
+func EnvironmentTemplate(input []byte) []byte {
+    config := string(input)
+
+    re := regexp.MustCompile(`[{]{2}([^{|}]*)[}]{2}`)
+    matches := re.FindAllStringSubmatch(config, -1)
+
+    for _, match := range matches {
+        text := strings.TrimSpace(match[1])
+        if value, found := os.LookupEnv(text); found {
+            config = strings.ReplaceAll(config, match[0], value)
+        } else {
+            zlog.Log.Warnf("Environment variable [ %s ] not found", text)
+            config = strings.ReplaceAll(config, match[0], text)
+        }
+    }
+
+    return []byte(config)
 }
 
 func SubstituteEnvironmentProperty(value string) string {
