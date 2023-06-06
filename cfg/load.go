@@ -1,6 +1,7 @@
 package cfg
 
 import (
+    "github.com/d3code/zlog"
     "gopkg.in/yaml.v3"
     "os"
     "path"
