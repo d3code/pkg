@@ -9,8 +9,8 @@ github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 h1:qSGYFH7+jGhD
 github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311/go.mod h1:b583jCggY9gE99b6G5LEC39OIiVsWj+R97kbl5odCEk=
 github.com/d3code/clog v0.0.0-20230529212721-c2862b694b95 h1:LFjYeJgzldJkc1jLHltxsC4BtZt2rJgHAKvt7d311iM=
 github.com/d3code/clog v0.0.0-20230529212721-c2862b694b95/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
-github.com/d3code/zlog v0.0.0-20230603223643-0db27f89edac h1:T6ToYq26jFvLqxFq7Gv3AV42dH/9NJMpCDmB/oRoQtg=
-github.com/d3code/zlog v0.0.0-20230603223643-0db27f89edac/go.mod h1:opwbUMKMsoCD8wpkTVEW9CFnuKXkUkXcIu9HfEfnvpc=
+github.com/d3code/zlog v0.0.0-20230606025441-94fa8965257a h1:00v8muJFHn5N7i1z7APY59DU7JFih92PQHu82EU6HNU=
+github.com/d3code/zlog v0.0.0-20230606025441-94fa8965257a/go.mod h1:opwbUMKMsoCD8wpkTVEW9CFnuKXkUkXcIu9HfEfnvpc=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

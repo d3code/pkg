@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/MicahParks/keyfunc v1.9.0
 	github.com/d3code/clog v0.0.0-20230529212721-c2862b694b95
-	github.com/d3code/zlog v0.0.0-20230603223643-0db27f89edac
+	github.com/d3code/zlog v0.0.0-20230606025441-94fa8965257a
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/golang-jwt/jwt/v4 v4.5.0
