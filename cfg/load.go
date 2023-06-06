@@ -1,7 +1,6 @@
 package cfg
 
 import (
-    "github.com/d3code/zlog"
     "gopkg.in/yaml.v3"
     "os"
     "path"
@@ -19,7 +18,7 @@ func LoadConfiguration(name string, config interface{}) {
     }
 
     configPath := path.Join(configLocation, configFilename)
-    zlog.Log.Debugf("Database configuration [ %s ]", configPath)
+    zlog.Log.Debugf("Configuration loaded: %s", configPath)
 
     configFile, err := os.ReadFile(configPath)
     if err != nil {

@@ -1,7 +1,6 @@
 package cfg
 
 import (
-    "github.com/d3code/zlog"
     "os"
     "reflect"
     "regexp"
@@ -14,7 +13,7 @@ func GetEnvironmentOrDefault(key string, fallback string) string {
         return value
     }
 
-    zlog.Log.Debugf("%s [ %s ] (fallback)", key, fallback)
+    zlog.Log.Warnf("%s [ %s ] (fallback)", key, fallback)
     return fallback
 }
 
