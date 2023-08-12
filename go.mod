@@ -1,6 +1,6 @@
 module github.com/d3code/pkg
 
-go 1.20
+go 1.21
 
 require (
 	github.com/MicahParks/keyfunc v1.9.0
