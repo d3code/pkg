@@ -1,7 +1,7 @@
 package api
 
 type Response struct {
-    Data       any         `json:"data"`            // response data
+    Data       any         `json:"data,omitempty"`  // response data
     Count      *int        `json:"count,omitempty"` // total number of items
     Pagination *Pagination `json:"pagination,omitempty"`
     Links      Links       `json:"links"`
