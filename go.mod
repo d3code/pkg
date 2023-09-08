@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/MicahParks/keyfunc v1.9.0
 	github.com/d3code/clog v0.0.0-20230529212721-c2862b694b95
-	github.com/d3code/zlog v0.0.0-20230812095822-3846410552cb
+	github.com/d3code/zlog v0.0.0-20230819065241-0144e20eb120
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/golang-jwt/jwt/v4 v4.5.0
