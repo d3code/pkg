@@ -127,3 +127,11 @@ func Duplicate(err error) bool {
     }
     return ErrorCode(err) == 1062
 }
+
+// NoRows returns true if no rows are found in result set
+func NoRows(err error) bool {
+    if err == nil {
+        return false
+    }
+    return err.Error() == "sql: no rows in result set"
+}
