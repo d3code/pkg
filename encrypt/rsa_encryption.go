@@ -34,11 +34,18 @@ func RsaDecrypt(toDecrypt string, privateKeyPath string) *string {
 
     } else {
 
-        privateKey, _ := os.ReadFile(privateKeyPath)
-        pem := RsaPrivateFromString(string(privateKey))
-        if pem == nil {
+        privateKey, errReadFile := os.ReadFile(privateKeyPath)
+        if errReadFile != nil {
+            fmt.Println("Error: ", errReadFile)
             return nil
         }
+
+        pem := RsaPrivateFromString(string(privateKey))
+        if pem == nil {
+            fmt.Println("Could not read private key")
+            return nil
+        }
+
         dec := DecryptWithPrivateKey(toDecrypt, pem)
         return &dec
     }
