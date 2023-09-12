@@ -27,8 +27,5 @@ type Links struct {
 }
 
 type ResponseError struct {
-    Type    *string `json:"type,omitempty"`    // error type
-    Message string  `json:"message"`           // error message
-    Details any     `json:"details,omitempty"` // additional details about error
-    Field   *string `json:"field,omitempty"`   // json field name of request in error if applicable
+    Message string `json:"message"` // error message
 }
