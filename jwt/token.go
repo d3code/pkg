@@ -9,16 +9,15 @@ import (
     "github.com/gin-gonic/gin"
     "github.com/golang-jwt/jwt/v4"
     "strings"
-    "time"
 )
 
-func GetValidTokenFromRequst(c *gin.Context, jwksUrl string, cacheExpiration time.Duration) (*jwt.Token, *jwt.MapClaims) {
+func GetValidTokenFromRequest(c *gin.Context, jwksUrl string) (*jwt.Token, *jwt.MapClaims) {
     headerToken := GetTokenStringFromRequest(c)
     if headerToken == nil {
         return nil, nil
     }
 
-    jwksString := GetJwks(jwksUrl, cacheExpiration)
+    jwksString := GetJwks(jwksUrl)
     if jwksString == nil {
         zlog.Log.Error("Missing JWKS")
         return nil, nil
@@ -53,8 +52,9 @@ func GetClaims(token jwt.Token) (jwt.MapClaims, error) {
     return nil, errors.New("token not valid")
 }
 
+// GetTokenStringFromRequest returns the token string from the Authorization header
+// or from the query parameter "token" or from the cookie "token".
 func GetTokenStringFromRequest(c *gin.Context) *string {
-
     authorizationHeader := c.GetHeader("Authorization")
 
     if authorizationHeader == "" {
