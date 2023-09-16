@@ -2,30 +2,26 @@ package api
 
 type Response struct {
     Data       any         `json:"data,omitempty"` // response data
-    Count      *Count      `json:"count,omitempty"`
-    Pagination *Pagination `json:"pagination,omitempty"`
-    Links      Links       `json:"links"`
+    Count      *count      `json:"count,omitempty"`
+    Pagination *pagination `json:"pagination,omitempty"`
+    Links      *links      `json:"links,omitempty"`
 }
 
-type Count struct {
+type count struct {
     Returned int `json:"returned"` // items returned in response
     Total    int `json:"total"`    // total number of items
 }
 
-type Pagination struct {
+type pagination struct {
     Limit int `json:"limit"` // number of items per page
     Page  int `json:"page"`  // current page
     Pages int `json:"pages"` // total number of pages
 }
 
-type Links struct {
+type links struct {
     Self  string  `json:"_self"`           // current page
     First *string `json:"first,omitempty"` // first page
     Prev  *string `json:"prev,omitempty"`  // previous page
     Next  *string `json:"next,omitempty"`  // next page
     Last  *string `json:"last,omitempty"`  // last page
-}
-
-type ResponseError struct {
-    Message string `json:"message"` // error message
 }

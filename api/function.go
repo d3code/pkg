@@ -6,7 +6,9 @@ import (
     "strconv"
 )
 
-func ResponseArray(items any, page int, limit int, total int, url *url.URL) Response {
+// ResponsePaginated returns a paginated response
+// If the data is not an array, map or slice, the data is returned as is
+func ResponsePaginated(data any, page int, limit int, total int, url *url.URL) Response {
     var lastPage int
     if limit == 0 {
         lastPage = 1
@@ -14,11 +16,12 @@ func ResponseArray(items any, page int, limit int, total int, url *url.URL) Resp
         lastPage = (total / limit) + 1
     }
 
-    var length Count
-    if reflect.TypeOf(items).Kind() == reflect.Array || reflect.TypeOf(items).Kind() == reflect.Map || reflect.TypeOf(items).Kind() == reflect.Slice {
-        length = Count{
-            Returned: reflect.ValueOf(items).Len(),
-            Total:    total,
+    if reflect.TypeOf(data).Kind() != reflect.Array &&
+        reflect.TypeOf(data).Kind() != reflect.Map &&
+        reflect.TypeOf(data).Kind() != reflect.Slice {
+
+        return Response{
+            Data: data,
         }
     }
 
@@ -39,14 +42,17 @@ func ResponseArray(items any, page int, limit int, total int, url *url.URL) Resp
     }
 
     response := Response{
-        Data: items,
-        Pagination: &Pagination{
+        Data: data,
+        Pagination: &pagination{
             Limit: limit,
             Page:  page,
             Pages: lastPage,
         },
-        Count: &length,
-        Links: Links{
+        Count: &count{
+            Returned: reflect.ValueOf(data).Len(),
+            Total:    total,
+        },
+        Links: &links{
             Self:  url.String(),
             First: first,
             Last:  last,

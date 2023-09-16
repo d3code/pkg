@@ -1,7 +1,6 @@
 package jwt
 
 import (
-    "github.com/d3code/zlog"
     "github.com/patrickmn/go-cache"
     "io"
     "net/http"
@@ -31,13 +30,11 @@ func GetJwks(jwksUrl string) *string {
 func getRequest(jwksUrl string) *string {
     response, err := http.Get(jwksUrl)
     if err != nil {
-        zlog.Log.Error(err)
         return nil
     }
 
     body, err := io.ReadAll(response.Body)
     if err != nil {
-        zlog.Log.Error(err)
         return nil
     }
 

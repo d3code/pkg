@@ -1,13 +1,12 @@
 package cfg
 
 import (
-    "github.com/d3code/zlog"
     "gopkg.in/yaml.v3"
     "os"
     "path"
 )
 
-func LoadConfiguration(name string, config interface{}) {
+func LoadConfiguration(name string, config interface{}) error {
     environment := GetEnvironmentOrDefault("ENVIRONMENT", "local")
     configLocation := GetEnvironmentOrDefault("CONFIG_LOCATION", "config")
 
@@ -19,16 +18,12 @@ func LoadConfiguration(name string, config interface{}) {
     }
 
     configPath := path.Join(configLocation, configFilename)
-    zlog.Log.Debugf("Configuration loaded: %s", configPath)
-
     configFile, err := os.ReadFile(configPath)
     if err != nil {
-        zlog.Log.Fatal(err)
+        return err
     }
 
     configFile = EnvironmentTemplate(configFile)
     err = yaml.Unmarshal(configFile, config)
-    if err != nil {
-        zlog.Log.Fatal(err)
-    }
+    return err
 }

@@ -2,11 +2,16 @@ package api
 
 import (
     "fmt"
+    "net/http"
     "net/url"
     "strconv"
 )
 
-func GetPageLimit(values url.Values, limitDefault int) (int, int, error) {
+// GetPageLimit returns the page and limit values from the query params
+// If the page or limit is not set, the default values are used
+func GetPageLimit(req *http.Request, limitDefault int) (int, int, error) {
+    values, err := url.ParseQuery(req.URL.RawQuery)
+
     paramPage := values.Get("page")
     paramLimit := values.Get("limit")
 
