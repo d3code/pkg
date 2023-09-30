@@ -10,8 +10,8 @@ github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 h1:qSGYFH7+jGhD
 github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311/go.mod h1:b583jCggY9gE99b6G5LEC39OIiVsWj+R97kbl5odCEk=
 github.com/d3code/clog v0.0.0-20230930052527-683e18a3d08d h1:dIVVSvq1NzQMf/eYTYZiPRy5D1kErYn++8bND9rdEyU=
 github.com/d3code/clog v0.0.0-20230930052527-683e18a3d08d/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
-github.com/d3code/zlog v0.0.0-20230929023454-5d77cd777bae h1:63PN3US+0eDztRkpZK8t5SEo0oZvlONYrOcry6z1DMw=
-github.com/d3code/zlog v0.0.0-20230929023454-5d77cd777bae/go.mod h1:o5G+bELKR2LJ2TE/dHAY5weFG+QY3+SM15cJIFbmgfE=
+github.com/d3code/zlog v0.0.0-20230930052759-e8d58c011286 h1:9KqeFNk/SXyzvgocd4IA9ITKfqs6og8KLTvpwzHVw88=
+github.com/d3code/zlog v0.0.0-20230930052759-e8d58c011286/go.mod h1:SOdsu96B2ktBUW3TBDN3ZiFVcRFwJhI6K57bvtQ1V+Q=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
